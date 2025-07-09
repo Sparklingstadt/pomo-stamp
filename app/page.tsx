@@ -1,19 +1,22 @@
 'use client'
 import { useEffect, useState } from "react";
+import z from "zod";
 
 export default function Home() {
-  type Pomodoro = {
-    task: string,
-    date: {
-      month: number | undefined
-      day: number | undefined
-    }
-  }
+  const Pomodoro = z.object({
+    task: z.string(),
+    date: z.object({
+      month: z.number().min(1).max(12),
+      day: z.number().min(1).max(31)
+    })
+  })
+
+  type Pomodoro = z.infer<typeof Pomodoro>
 
   // newPomodoroがPomodoro | undefinedになる
   // useStateは引数を与えないと<T | undefined> 
   // useState<string>("")にするとstring型
-  const [newPomodoro, setNewPomodoro] = useState<Pomodoro>()
+  const [pomodoro, setPomodoro] = useState<Pomodoro>()
   const [task, setTask] = useState<string>("")
   const [month, setMonth] = useState<number>(0)
 
@@ -29,22 +32,25 @@ export default function Home() {
   }
 
   const addPomodoro = () => {
-    if(task && month !== undefined){
-      const pomodoro = {
-        task,
-        date: {
-          month,
-          day: undefined
-        }
+    const newPomodoro = {
+      task,
+      date: {
+        month,
+        day: 1
       }
+    }
+    const result = Pomodoro.safeParse(newPomodoro)
 
-      setNewPomodoro(pomodoro)
+    if(!result.success){
+      result.error
+    } else {
+      setPomodoro(result.data)
     }
   }
 
   useEffect(() => {
-    console.log(newPomodoro)
-  }, [newPomodoro])
+    console.log(pomodoro)
+  }, [pomodoro])
 
   return (
     <div>
