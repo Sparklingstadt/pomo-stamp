@@ -1,10 +1,8 @@
 'use client'
 import { useEffect, useState } from "react";
-import z from "zod";
 import { pomodoroSchema, type Pomodoro } from "@/lib/schemas/pomodoro/schema"
 
 export default function Home() {
-
 
   // newPomodoroがPomodoro | undefinedになる
   // useStateは引数を与えないと<T | undefined> 
