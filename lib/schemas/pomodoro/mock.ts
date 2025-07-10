@@ -1,4 +1,4 @@
-export default {
+export const mockPomodoro = {
     id: crypto.randomUUID(),
     task: "Pomoぽも",
     date: {
