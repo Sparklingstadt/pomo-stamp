@@ -82,6 +82,10 @@ export default function Home() {
         <section>
           <button onClick={() => addPomodoro()}>登録</button>
         </section>
+        <section>
+          <h2>Pomodoro</h2>
+          <pre>{ JSON.stringify(pomodoro) }</pre>
+        </section>
       </div>
     </div>
   );
