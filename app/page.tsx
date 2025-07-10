@@ -32,6 +32,7 @@ export default function Home() {
 
   const addPomodoro = () => {
     const newPomodoro = {
+      id: crypto.randomUUID(),
       task,
       date: {
         month,
@@ -41,7 +42,7 @@ export default function Home() {
     const result = pomodoroSchema.safeParse(newPomodoro)
 
     if(!result.success){
-      result.error
+      console.log(result.error)
     } else {
       setPomodoro(result.data)
     }
