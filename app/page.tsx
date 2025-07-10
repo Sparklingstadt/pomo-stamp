@@ -1,17 +1,10 @@
 'use client'
 import { useEffect, useState } from "react";
 import z from "zod";
+import { pomodoroSchema, type Pomodoro } from "@/lib/schemas/pomodoro/schema"
 
 export default function Home() {
-  const Pomodoro = z.object({
-    task: z.string(),
-    date: z.object({
-      month: z.number().min(1).max(12),
-      day: z.number().min(1).max(31)
-    })
-  })
 
-  type Pomodoro = z.infer<typeof Pomodoro>
 
   // newPomodoroがPomodoro | undefinedになる
   // useStateは引数を与えないと<T | undefined> 
@@ -47,7 +40,7 @@ export default function Home() {
         day
       }
     }
-    const result = Pomodoro.safeParse(newPomodoro)
+    const result = pomodoroSchema.safeParse(newPomodoro)
 
     if(!result.success){
       result.error
