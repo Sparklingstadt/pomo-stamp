@@ -19,6 +19,7 @@ export default function Home() {
   const [pomodoro, setPomodoro] = useState<Pomodoro>()
   const [task, setTask] = useState<string>("")
   const [month, setMonth] = useState<number>(0)
+  const [day, setDay] = useState<number>(0)
 
   const handleSetTask = (task: string) => {
     setTask(task)
@@ -31,12 +32,19 @@ export default function Home() {
     }
   }
 
+  const handleSetDay = (day: string) => {
+    const parsedDay = parseInt(day)
+    if(!isNaN(parsedDay)){
+      setDay(parsedDay)
+    }
+  }
+
   const addPomodoro = () => {
     const newPomodoro = {
       task,
       date: {
         month,
-        day: 1
+        day
       }
     }
     const result = Pomodoro.safeParse(newPomodoro)
@@ -65,6 +73,11 @@ export default function Home() {
           <label htmlFor="">月</label>
           <input type="text" value={month} onChange={e => handleSetMonth(e.target.value)}/>
           <p>month: { month }</p>
+        </section>
+        <section>
+          <label htmlFor="">日
+            <input type="text" value={day} onChange={e => handleSetDay(e.target.value)} />
+          </label>
         </section>
         <section>
           <button onClick={() => addPomodoro()}>登録</button>
