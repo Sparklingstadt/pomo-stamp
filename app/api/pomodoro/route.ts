@@ -1,10 +1,11 @@
+import { mockPomodoros } from "@/lib/schemas/pomodoro/mock";
 import { pomodoroSchema } from "@/lib/schemas/pomodoro/schema";
 import { NextResponse } from "next/server";
 
 export async function GET() {
-    return NextResponse.json({
-        message: "200 OK"
-    })
+    return NextResponse.json([
+        mockPomodoros
+    ])
 }
 
 export async function POST(req: Request) {
