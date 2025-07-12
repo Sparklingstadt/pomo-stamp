@@ -1,7 +1,7 @@
   import z from "zod/v4"
   
   export const pomodoroSchema = z.object({
-    id: z.uuid(),
+    id: z.number(),
     task: z.string(),
     date: z.object({
       month: z.number().min(1).max(12),
