@@ -3,9 +3,7 @@ import { pomodoroSchema } from "@/lib/schemas/pomodoro/schema";
 import { NextResponse } from "next/server";
 
 export async function GET() {
-    return NextResponse.json([
-        mockPomodoros
-    ])
+  return NextResponse.json(mockPomodoros)
 }
 
 export async function POST(req: Request) {
