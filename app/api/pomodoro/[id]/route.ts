@@ -22,4 +22,12 @@ export async function PUT(req: Request, { params } : { params: { id: string }}) 
     if(!pomodoro) return NextResponse.json({ error: `id ${params.id} not found`}, { status: 404})
 
     return NextResponse.json({ message: "200 Successfully updated!", body}, { status: 200 })
-} 
+}
+
+export async function DELETE(req: Request, { params } : { params: { id: string }}) {
+    const { id } = await params
+    const pomodoro = mockPomodoros.find(item => item.id === parseInt(id))
+    if(!pomodoro) return NextResponse.json({ error: `404 id:${id} not found`})
+    
+    return NextResponse.json({ message: "204 Successfully deleted"})
+}
