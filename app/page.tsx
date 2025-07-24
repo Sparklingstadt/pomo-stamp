@@ -8,8 +8,7 @@ export default function Home() {
   // newPomodoroがPomodoro | undefinedになる
   // useStateは引数を与えないと<T | undefined> 
   // useState<string>("")にするとstring型
-  const [pomodoros, setPomodoros] = useState<Pomodoro[]>()
-  const [pomodoro, setPomodoro] = useState<Pomodoro>()
+  const [pomodoros, setPomodoros] = useState<Pomodoro[]>([])
   const [task, setTask] = useState<string>("")
   const [month, setMonth] = useState<number>(0)
   const [day, setDay] = useState<number>(0)
@@ -47,17 +46,13 @@ export default function Home() {
     if(!result.success){
       console.log(result.error)
     } else {
-      setPomodoro(result.data)
+      setPomodoros([...pomodoros, result.data])
     }
   }
 
   useEffect(() => {
     setPomodoros(mockPomodoros)
   }, [])
-
-  useEffect(() => {
-    console.log(pomodoro)
-  }, [pomodoro])
 
   return (
     <div>
@@ -78,10 +73,6 @@ export default function Home() {
         </section>
         <section>
           <button onClick={() => addPomodoro()}>登録</button>
-        </section>
-        <section>
-          <h2>Result</h2>
-          <pre>{ JSON.stringify(pomodoro) }</pre>
         </section>
         <section>
           <h2>Pomodoros</h2>
