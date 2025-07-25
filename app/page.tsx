@@ -51,7 +51,15 @@ export default function Home() {
   }
 
   useEffect(() => {
-    setPomodoros(mockPomodoros)
+    fetch('http://localhost:3000/api/pomodoro', )
+      .then(res => {
+        if(!res.ok)  throw new Error("エラー")
+        return res.json()
+      })
+      .then(data => {
+        setPomodoros(data)
+        console.log(data)
+      })
   }, [])
 
   return (
