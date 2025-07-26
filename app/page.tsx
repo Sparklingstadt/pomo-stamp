@@ -1,17 +1,19 @@
 'use client'
 import { useEffect, useState } from "react";
 import { pomodoroSchema, type Pomodoro } from "@/lib/schemas/pomodoro/schema"
-import { mockPomodoros } from "@/lib/schemas/pomodoro/mock";
+import useSWR from "swr";
 
 export default function Home() {
 
-  // newPomodoroがPomodoro | undefinedになる
   // useStateは引数を与えないと<T | undefined> 
   // useState<string>("")にするとstring型
   const [pomodoros, setPomodoros] = useState<Pomodoro[]>([])
   const [task, setTask] = useState<string>("")
   const [month, setMonth] = useState<number>(0)
   const [day, setDay] = useState<number>(0)
+
+  const fetcher = (url: string) => fetch(url).then(res => res.json())
+  const { data, error, isLoading } = useSWR('/api/pomodoro', fetcher)
 
   const handleSetTask = (task: string) => {
     setTask(task)
@@ -51,16 +53,8 @@ export default function Home() {
   }
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/pomodoro', )
-      .then(res => {
-        if(!res.ok)  throw new Error("エラー")
-        return res.json()
-      })
-      .then(data => {
-        setPomodoros(data)
-        console.log(data)
-      })
-  }, [])
+    if(data) setPomodoros(data)
+  }, [data])
 
   return (
     <div>
@@ -85,7 +79,7 @@ export default function Home() {
         <section>
           <h2>Pomodoros</h2>
           <ul>
-            { pomodoros?.map(pomodoro => (
+            { pomodoros.map(pomodoro => (
               <li key={pomodoro.id}>{ JSON.stringify(pomodoro)}</li>
             ))}
           </ul>
