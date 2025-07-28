@@ -9,6 +9,9 @@ const eslintConfig = [
   ...compat.config({
     extends: ['next/core-web-vitals', 'next/typescript'],
   }),
+  {
+    ignores: ["./lib/generated/**"]
+  }
 ]
  
 export default eslintConfig
