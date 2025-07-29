@@ -1,9 +1,9 @@
-import type { Metadata } from "next";
-import "./styles/globals.css";
+import type { Metadata } from 'next';
+import './styles/globals.css';
 
 export const metadata: Metadata = {
-  title: "Pomo Stamp",
-  description: "A nice pomodoro stamp app",
+  title: 'Pomo Stamp',
+  description: 'A nice pomodoro stamp app',
 };
 
 export default function RootLayout({
@@ -13,9 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

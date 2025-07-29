@@ -1,9 +1,9 @@
 {
-    "id": 1,
-    "uuid": "a1c32e45-8924-4c46-9d81-7de274287e72",
-    "task": "Pomo pomo",
-    "date": {
-        "month": 7,
-        "day": 8
-    }
+  "id": 1,
+  "uuid": "a1c32e45-8924-4c46-9d81-7de274287e72",
+  "task": "Pomo pomo",
+  "date": {
+    "month": 7,
+    "day": 8
+  }
 }

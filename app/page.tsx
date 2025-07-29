@@ -1,10 +1,10 @@
-import Pomodoro from "./Pomodoro";
+import Pomodoro from './Pomodoro';
 
-export default function Page(){
+export default function Page() {
   return (
     <div>
       <h1>pomo-stamp app</h1>
       <Pomodoro />
     </div>
-  )
+  );
 }
