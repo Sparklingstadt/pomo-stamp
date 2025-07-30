@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prepare": "husky"
   },
   "dependencies": {
     "@prisma/client": "^6.12.0",
@@ -19,12 +20,15 @@
     "zod": "^3.25.75"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "9.32.0",
     "eslint-config-next": "15.4.4",
     "eslint-config-prettier": "^10.1.8",
+    "husky": "^9.1.7",
     "prettier": "^3.6.2",
     "prisma": "^6.12.0",
     "typescript": "^5"
