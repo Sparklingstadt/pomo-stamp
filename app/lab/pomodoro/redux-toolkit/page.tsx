@@ -1,7 +1,13 @@
-import Pomodoro from "./Pomodoro";
+import Counter from "./Counter";
+import CounterProvider from "./CounterProvider";
 
 export default function Page(){
   return (
-    <Pomodoro />
+    <div>
+      <h1>Pomodoro Timer</h1>
+      <CounterProvider>
+        <Counter />
+      </CounterProvider>
+    </div>
   )
 }
