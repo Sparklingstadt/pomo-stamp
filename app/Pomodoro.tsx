@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { type Pomodoro } from '@/lib/schemas/pomodoro/schema';
 import useSWR from 'swr';
 import PomodoroTable from './components/PomodoroTable';
+import AddPomodoroForm from './components/AddPomodoroForm';
 
 export default function Pomodoro() {
   const [pomodoros, setPomodoros] = useState<Pomodoro[]>([]);
@@ -23,6 +24,7 @@ export default function Pomodoro() {
   return (
     <div>
       <PomodoroTable pomodoros={pomodoros} />
+      <AddPomodoroForm />
     </div>
   );
 }
