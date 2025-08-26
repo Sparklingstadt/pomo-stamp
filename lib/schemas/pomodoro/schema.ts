@@ -4,10 +4,14 @@ export const pomodoroSchema = z.object({
   id: z.number(),
   uuid: z.uuid(),
   task: z.string(),
+  memo: z.string(),
   date: z.object({
     month: z.number().min(1).max(12),
     day: z.number().min(1).max(31),
   }),
 });
 
+export const pomodoroPostSchema = pomodoroSchema.omit({ id: true, uuid: true });
+
 export type Pomodoro = z.infer<typeof pomodoroSchema>;
+export type PomodoroPost = z.infer<typeof pomodoroPostSchema>;

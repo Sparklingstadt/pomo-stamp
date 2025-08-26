@@ -7,6 +7,27 @@ export default function AddPomodoroForm() {
   const [task, setTask] = useState('Kotlin')
   const [memo, setMemo] = useState('with Jetpack Compose')
 
+  const handleAddPomodoro = async () => {
+    const pomodoro = {
+      task,
+      memo,
+      date: {
+        month: parseInt(month),
+        day: parseInt(day)
+      }
+    }
+
+    await fetch('/api/pomodoro', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(pomodoro)
+    }).then(res => res.json()).then(data => {
+      console.log(data);
+    });
+  }
+
   return (
     <div>
       <section className="my-4">
@@ -26,7 +47,7 @@ export default function AddPomodoroForm() {
         <input className="border" type="text" id="memo" value={memo} onChange={(e) => setMemo(e.target.value)} />
       </section>
       <section className="my-4">
-        <button className="bg-blue-200 p-4 px-8 hover:bg-blue-300" onClick={() => {}}>登録</button>
+        <button className="bg-blue-200 p-4 px-8 hover:bg-blue-300" onClick={() => handleAddPomodoro()}>登録</button>
       </section>
     </div>
   )

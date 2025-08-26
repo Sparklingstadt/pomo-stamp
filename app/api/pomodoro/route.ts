@@ -1,5 +1,5 @@
 import { mockPomodoros } from '@/lib/schemas/pomodoro/mock';
-import { pomodoroSchema } from '@/lib/schemas/pomodoro/schema';
+import { pomodoroPostSchema } from '@/lib/schemas/pomodoro/schema';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
@@ -8,23 +8,20 @@ export async function GET() {
 
 export async function POST(req: Request) {
   const payload = await req.json();
-  const result = pomodoroSchema.safeParse(payload);
 
-  if (!result.success) {
+  if(pomodoroPostSchema.safeParse(payload).success === false) {
     return NextResponse.json(
       {
-        message: 'invalid data format',
-        payload,
+        message: 'Bad Request',
         status: 400,
       },
       { status: 400 }
     );
   }
-
+  
   return NextResponse.json(
     {
       payload,
-      status: 200,
     },
     { status: 200 }
   );
