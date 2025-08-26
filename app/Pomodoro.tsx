@@ -1,10 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { pomodoroSchema, type Pomodoro } from '@/lib/schemas/pomodoro/schema';
-import AddPomodoroForm from './components/AddPomodoroForm';
-import PomodoroList from './components/PomodoroList';
+import { type Pomodoro } from '@/lib/schemas/pomodoro/schema';
 import useSWR from 'swr';
+import PomodoroTable from './components/PomodoroTable';
 
 export default function Pomodoro() {
   const [pomodoros, setPomodoros] = useState<Pomodoro[]>([]);
@@ -18,32 +17,12 @@ export default function Pomodoro() {
     setPomodoros(data);
   }, [data]);
 
-  const handleAddPomodoro = ({
-    task,
-    month,
-    day,
-  }: {
-    task: string;
-    month: number;
-    day: number;
-  }) => {
-    const pomodoro = { id: 7, uuid: crypto.randomUUID(), task, date: { month, day } };
-
-    const result = pomodoroSchema.safeParse(pomodoro);
-    if (result.error) {
-      throw new Error('zod error');
-    } else {
-      setPomodoros([...pomodoros, pomodoro]);
-    }
-  };
-
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error</div>;
 
   return (
     <div>
-      <AddPomodoroForm onAddPomodoro={handleAddPomodoro} />
-      <PomodoroList pomodoros={pomodoros} />
+      <PomodoroTable pomodoros={pomodoros} />
     </div>
   );
 }
