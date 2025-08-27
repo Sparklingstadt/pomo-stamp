@@ -7,11 +7,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model users {
+model User {
   id       Int     @id @default(autoincrement())
   username String  @db.VarChar(50)
   email    String  @unique @db.VarChar(255)
   note     String?
+
+  @@map("users")
 }
 
 model Pomodoro {
@@ -21,4 +23,6 @@ model Pomodoro {
   memo   String
   month  Int
   day    Int
+
+  @@map("pomodoros")
 }

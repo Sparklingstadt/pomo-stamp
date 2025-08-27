@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  const pomodoros = await prisma.pomodoro.findMany();
+  const pomodoros = await prisma.pomodoros.findMany();
   console.log(pomodoros);
 }
 
