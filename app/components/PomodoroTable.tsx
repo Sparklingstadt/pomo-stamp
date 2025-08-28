@@ -3,6 +3,12 @@
 import { Pomodoro } from "@/lib/schemas/pomodoro/schema"
 
 export default function PomodoroTable({ pomodoros }: { pomodoros: ReadonlyArray<Pomodoro> }) {
+  const handleDeletePomodoro = async (id: number) => {
+    await fetch(`/api/pomodoro/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
   return (
     <table>
       <thead>
@@ -23,7 +29,7 @@ export default function PomodoroTable({ pomodoros }: { pomodoros: ReadonlyArray<
             <td>なし(デフォルト)</td>
             <td>
               <button className="bg-gray-300 hover:bg-gray-600 mx-2 p-2">編集</button>
-              <button className="bg-gray-300 hover:bg-gray-600 mx-2 p-2">削除</button>
+              <button className="bg-gray-300 hover:bg-gray-600 mx-2 p-2" onClick={() => handleDeletePomodoro(pomo.id)}>削除</button>
             </td>
         </tr>
       ))}

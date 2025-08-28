@@ -1,6 +1,7 @@
 import { mockPomodoros } from '@/lib/schemas/pomodoro/mock';
 import { pomodoroSchema } from '@/lib/schemas/pomodoro/schema';
 import { NextResponse } from 'next/server';
+import { PrismaClient } from '@prisma/client';
 
 export async function GET(req: Request, { params }: { params: { id: string } }) {
   const id = parseInt(params.id);
@@ -26,9 +27,11 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
 }
 
 export async function DELETE(req: Request, { params }: { params: { id: string } }) {
-  const { id } = await params;
-  const pomodoro = mockPomodoros.find((item) => item.id === parseInt(id));
-  if (!pomodoro) return NextResponse.json({ error: `404 id:${id} not found` });
+  const prisma = new PrismaClient()
+  const id = parseInt(params.id);
+  const pomodoro = await prisma.pomodoro.findUnique({ where: { id } });
+  if (!pomodoro) return NextResponse.json({ error: `id ${params.id} not found` }, { status: 404 });
 
+  await prisma.pomodoro.delete({ where: { id } });
   return NextResponse.json({ message: '204 Successfully deleted' });
 }
