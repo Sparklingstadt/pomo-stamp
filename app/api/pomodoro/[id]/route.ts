@@ -28,7 +28,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
 
 export async function DELETE(req: Request, { params }: { params: { id: string } }) {
   const prisma = new PrismaClient()
-  const id = parseInt(params.id);
+  const id = parseInt((await params).id);
   const pomodoro = await prisma.pomodoro.findUnique({ where: { id } });
   if (!pomodoro) return NextResponse.json({ error: `id ${params.id} not found` }, { status: 404 });
 

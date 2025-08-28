@@ -1,14 +1,9 @@
-'use client'
+'use client';
+import { Pomodoro } from "@/lib/schemas/pomodoro/schema";
+import PomodoroTableDataRow from "./PomodoroTableDataRow";
 
-import { Pomodoro } from "@/lib/schemas/pomodoro/schema"
 
 export default function PomodoroTable({ pomodoros }: { pomodoros: ReadonlyArray<Pomodoro> }) {
-  const handleDeletePomodoro = async (id: number) => {
-    await fetch(`/api/pomodoro/${id}`, {
-      method: 'DELETE',
-    });
-  }
-
   return (
     <table>
       <thead>
@@ -21,19 +16,10 @@ export default function PomodoroTable({ pomodoros }: { pomodoros: ReadonlyArray<
         </tr>
       </thead>
       <tbody>
-        { pomodoros.map((pomo) => (
-          <tr key={pomo.id}>
-            <td>{pomo.id}</td>
-            <td>{pomo.date.month}/{pomo.date.day}</td>
-            <td>{pomo.task}</td>
-            <td>なし(デフォルト)</td>
-            <td>
-              <button className="bg-gray-300 hover:bg-gray-600 mx-2 p-2">編集</button>
-              <button className="bg-gray-300 hover:bg-gray-600 mx-2 p-2" onClick={() => handleDeletePomodoro(pomo.id)}>削除</button>
-            </td>
-        </tr>
-      ))}
+        {pomodoros.map(pomodoro => (
+          <PomodoroTableDataRow key={pomodoro.id} pomodoro={pomodoro} />
+        ))}
       </tbody>
     </table>
-  )
+  );
 }
