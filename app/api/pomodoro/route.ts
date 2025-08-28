@@ -1,9 +1,12 @@
-import { mockPomodoros } from '@/lib/schemas/pomodoro/mock';
 import { pomodoroPostSchema } from '@/lib/schemas/pomodoro/schema';
+import { PrismaClient } from '@prisma/client';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
-  return NextResponse.json(mockPomodoros);
+  const prisma = new PrismaClient()
+  const pomodoros = await prisma.pomodoro.findMany()
+
+  return NextResponse.json(pomodoros);
 }
 
 export async function POST(req: Request) {
