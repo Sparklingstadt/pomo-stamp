@@ -12,10 +12,12 @@ export default function AddPomodoroForm() {
       task,
       memo,
       date: {
-        month: parseInt(month),
-        day: parseInt(day)
+        month,
+        day,
       }
     }
+
+    console.log(JSON.stringify(pomodoro))
 
     await fetch('/api/pomodoro', {
       method: 'POST',
@@ -25,7 +27,7 @@ export default function AddPomodoroForm() {
       body: JSON.stringify(pomodoro)
     }).then(res => res.json()).then(data => {
       console.log(data);
-    });
+    })
   }
 
   return (

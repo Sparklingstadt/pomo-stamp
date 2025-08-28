@@ -21,10 +21,21 @@ export async function POST(req: Request) {
       { status: 400 }
     );
   }
-  
+
+  const prisma = new PrismaClient();
+  const pomodoro = await prisma.pomodoro.create({
+    data: {
+      uuid: crypto.randomUUID(),
+      task: payload.task,
+      memo: payload.memo,
+      month: parseInt(payload.date.month),
+      day: parseInt(payload.date.day),
+    }
+  });
+
   return NextResponse.json(
     {
-      payload,
+      "message": "Pomodoro created successfully",
     },
     { status: 200 }
   );
