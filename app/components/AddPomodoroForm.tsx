@@ -1,54 +1,56 @@
-'use client';
-import { useState } from 'react';
+'use client'
+import { useState } from "react"
 
-type Props = {
-  onAddPomodoro: (pomodoro: { task: string; month: number; day: number }) => void;
-};
+export default function AddPomodoroForm() {
+  const [month, setMonth] = useState('8')
+  const [day, setDay] = useState('25')
+  const [task, setTask] = useState('Kotlin')
+  const [memo, setMemo] = useState('with Jetpack Compose')
 
-export default function AddPomodoroForm({ onAddPomodoro }: Props) {
-  // useStateは引数を与えないと<T | undefined>
-  // useState<string>("")にするとstring型
-  const [task, setTask] = useState<string>('');
-  const [month, setMonth] = useState<number>(0);
-  const [day, setDay] = useState<number>(0);
-
-  const handleSetTask = (task: string) => {
-    setTask(task);
-  };
-
-  const handleSetMonth = (month: string) => {
-    const parsedMonth = parseInt(month);
-    if (!isNaN(parsedMonth)) {
-      setMonth(parsedMonth);
+  const handleAddPomodoro = async () => {
+    const pomodoro = {
+      task,
+      memo,
+      date: {
+        month,
+        day,
+      }
     }
-  };
 
-  const handleSetDay = (day: string) => {
-    const parsedDay = parseInt(day);
-    if (!isNaN(parsedDay)) {
-      setDay(parsedDay);
-    }
-  };
+    console.log(JSON.stringify(pomodoro))
+
+    await fetch('/api/pomodoro', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(pomodoro)
+    }).then(res => res.json()).then(data => {
+      console.log(data);
+    })
+  }
 
   return (
     <div>
-      <section>
-        <label>頑張ったこと</label>
-        <input type="text" value={task} onChange={(e) => handleSetTask(e.target.value)} />
+      <section className="my-4">
+        <label htmlFor="month" className="mr-2">月</label>
+        <input className="border" type="text" id="month" value={month} onChange={(e) => setMonth(e.target.value)} />
       </section>
-      <section>
-        <label htmlFor="">月</label>
-        <input type="text" value={month} onChange={(e) => handleSetMonth(e.target.value)} />
+      <section className="my-4">
+        <label htmlFor="day" className="mr-2">日</label>
+        <input className="border" type="text" id="day" value={day} onChange={(e) => setDay(e.target.value)} />
       </section>
-      <section>
-        <label htmlFor="">
-          日
-          <input type="text" value={day} onChange={(e) => handleSetDay(e.target.value)} />
-        </label>
+      <section className="my-4">
+        <label htmlFor="task" className="mr-2">やったこと</label>
+        <input className="border" type="text" id="task" value={task} onChange={(e) => setTask(e.target.value)} />
       </section>
-      <section>
-        <button onClick={() => onAddPomodoro({ task, month, day })}>登録</button>
+      <section className="my-4">
+        <label htmlFor="memo" className="mr-2">ひとことメモ</label>
+        <input className="border" type="text" id="memo" value={memo} onChange={(e) => setMemo(e.target.value)} />
+      </section>
+      <section className="my-4">
+        <button className="bg-blue-200 p-4 px-8 hover:bg-blue-300" onClick={() => handleAddPomodoro()}>登録</button>
       </section>
     </div>
-  );
+  )
 }

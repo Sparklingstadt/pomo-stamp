@@ -12,13 +12,16 @@
   "dependencies": {
     "@prisma/client": "^6.12.0",
     "@reduxjs/toolkit": "^2.8.2",
+    "@tailwindcss/postcss": "^4.1.12",
     "date-fns": "^4.1.0",
     "next": "15.3.5",
     "pg": "^8.16.3",
+    "postcss": "^8.5.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-redux": "^9.2.0",
     "swr": "^2.3.4",
+    "tailwindcss": "^4.1.12",
     "zod": "^3.25.75"
   },
   "devDependencies": {
@@ -33,6 +36,7 @@
     "husky": "^9.1.7",
     "prettier": "^3.6.2",
     "prisma": "^6.12.0",
+    "sass": "^1.91.0",
     "typescript": "^5"
   }
 }
