@@ -1,8 +1,8 @@
-function sum(a, b) {
+function sum(a: number, b: number) {
   return a + b;
 }
 
-function multiply(a, b) {
+function multiply(a: number, b: number) {
   return a * b;
 }
 
