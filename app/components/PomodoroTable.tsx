@@ -8,11 +8,11 @@ export default function PomodoroTable({ pomodoros }: { pomodoros: ReadonlyArray<
     <table>
       <thead>
         <tr>
-          <td>ID</td>
-          <td>日付</td>
-          <td>やったこと</td>
-          <td>ひとことメモ</td>
-          <td>操作</td>
+          <td align="center">ID</td>
+          <td align="center">日付</td>
+          <td align="center">やったこと</td>
+          <td align="center">ひとことメモ</td>
+          <td align="center">操作</td>
         </tr>
       </thead>
       <tbody>
