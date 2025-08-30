@@ -35,19 +35,19 @@ export default function AddPomodoroForm() {
   return (
     <div>
       <section className="flex justify-between mb-2">
-        <label htmlFor="month" className="mr-2">月</label>
+        <span className="mr-2">月</span>
         <InputTextField value={month} onChange={(e) => setMonth(e.target.value)} placeholder="Month" />
       </section>
       <section className="flex justify-between mb-2">
-        <label htmlFor="day" className="mr-2">日</label>
+        <span className="mr-2">日</span>
         <InputTextField value={day} onChange={(e) => setDay(e.target.value)} placeholder="Day" />
       </section>
       <section className="flex justify-between mb-2">
-        <label htmlFor="task" className="mr-2">やったこと</label>
+        <span className="mr-2">やったこと</span>
         <InputTextField value={task} onChange={(e) => setTask(e.target.value)} placeholder="Task" />
       </section>
       <section className="flex justify-between mb-2">
-        <label htmlFor="memo" className="mr-2">ひとことメモ</label>
+        <span className="mr-2">ひとことメモ</span>
         <InputTextField value={memo} onChange={(e) => setMemo(e.target.value)} placeholder="Memo" />
       </section>
       <section className="my-4">
