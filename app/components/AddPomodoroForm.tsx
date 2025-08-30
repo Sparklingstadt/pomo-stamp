@@ -19,8 +19,6 @@ export default function AddPomodoroForm() {
       }
     }
 
-    console.log(JSON.stringify(pomodoro))
-
     await fetch('/api/pomodoro', {
       method: 'POST',
       headers: {
