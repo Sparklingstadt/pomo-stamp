@@ -1,14 +1,33 @@
 'use client'
+import Button from "@/app/components/Button"
 import InputTextField from "@/app/components/InputTextField"
 import { PomodoroResponse } from "@/lib/schemas/pomodoro/schema"
+import { id } from "date-fns/locale"
 import Link from "next/link"
 import { useState } from "react"
+import { uuid } from "zod/v4"
 
 export default function PomodoroEditForm({ pomodoro } : { pomodoro: PomodoroResponse }) {
   const [task, setTask] = useState(pomodoro.task)
   const [memo, setMemo] = useState(pomodoro.memo)
   const [month, setMonth] = useState(pomodoro.month.toString())
   const [day, setDay] = useState(pomodoro.day.toString())
+
+  const handleUpdatePomodoro = async () => {
+    await fetch(`/api/pomodoro/${pomodoro.id}`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        id: pomodoro.id.toString(),
+        uuid: pomodoro.uuid,
+        task,
+        memo,
+        date: {
+          month,
+          day
+        }
+      })
+    })
+  }
 
   return (
     <div className="w-8/12 mx-auto">
@@ -29,10 +48,11 @@ export default function PomodoroEditForm({ pomodoro } : { pomodoro: PomodoroResp
         <label>日</label>
         <InputTextField value={day} onChange={(e) => setDay(e.target.value)} placeholder="Day" />
       </section>
-      <section>
+      <section className="flex justify-between mt-12">
         <Link href="/" className="text-blue-500 hover:underline">
-          Cancel
+          キャンセル
         </Link>
+        <Button onClick={() => handleUpdatePomodoro()}>更新</Button>
       </section>
     </div>
   )

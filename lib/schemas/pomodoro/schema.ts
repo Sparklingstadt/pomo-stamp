@@ -20,6 +20,16 @@ export const pomodoroPostSchema = z.object({
   }),
 })
 
+export const pomodoroPutSchema = z.object({
+  id: z.string(),
+  task: z.string(),
+  memo: z.string(),
+  date: z.object({
+    month: z.string(),
+    day: z.string(),
+  }),
+});
+
 export const pomodoroResponseSchema = z.object({
   id: z.number(),
   uuid: z.uuid(),
