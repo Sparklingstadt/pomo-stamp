@@ -1,8 +1,7 @@
 'use client'
 import { useState } from "react"
 import InputTextField from "./InputTextField"
-import Button from "./Button"
-
+import { Button } from "@/components/ui/button";
 export default function AddPomodoroForm() {
   const [month, setMonth] = useState('8')
   const [day, setDay] = useState('25')
@@ -49,7 +48,7 @@ export default function AddPomodoroForm() {
         <InputTextField value={memo} onChange={(e) => setMemo(e.target.value)} placeholder="Memo" />
       </section>
       <section className="my-4">
-        <Button onClick={() => handleAddPomodoro()}>登録</Button>
+        <Button className="bg-blue-500 text-white" variant="outline" onClick={() => handleAddPomodoro()}>登録</Button>
       </section>
     </div>
   )

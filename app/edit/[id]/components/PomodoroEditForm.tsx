@@ -1,6 +1,6 @@
 'use client'
-import Button from "@/app/components/Button"
 import InputTextField from "@/app/components/InputTextField"
+import { Button } from "@/components/ui/button"
 import { PomodoroResponse } from "@/lib/schemas/pomodoro/schema"
 import Link from "next/link"
 import { useState } from "react"
@@ -47,10 +47,12 @@ export default function PomodoroEditForm({ pomodoro } : { pomodoro: PomodoroResp
         <InputTextField value={day} onChange={(e) => setDay(e.target.value)} placeholder="Day" />
       </section>
       <section className="flex justify-between mt-12">
-        <Link href="/" className="text-blue-500 hover:underline">
-          キャンセル
-        </Link>
-        <Button onClick={() => handleUpdatePomodoro()}>更新</Button>
+        <Button>
+          <Link href="/" className="text-blue-500 hover:underline">
+            キャンセル
+          </Link>
+        </Button>
+        <Button className="bg-blue-500 text-white" onClick={() => handleUpdatePomodoro()}>更新</Button>
       </section>
     </div>
   )
