@@ -2,10 +2,8 @@
 import Button from "@/app/components/Button"
 import InputTextField from "@/app/components/InputTextField"
 import { PomodoroResponse } from "@/lib/schemas/pomodoro/schema"
-import { id } from "date-fns/locale"
 import Link from "next/link"
 import { useState } from "react"
-import { uuid } from "zod/v4"
 
 export default function PomodoroEditForm({ pomodoro } : { pomodoro: PomodoroResponse }) {
   const [task, setTask] = useState(pomodoro.task)
@@ -30,7 +28,7 @@ export default function PomodoroEditForm({ pomodoro } : { pomodoro: PomodoroResp
   }
 
   return (
-    <div className="w-8/12 mx-auto">
+    <div>
       <h1 className="text-4xl my-4">Edit pomodoro</h1>
       <section className="flex mb-2 justify-between">
         <label>やったこと</label>

@@ -1,5 +1,7 @@
 'use client'
 import { useState } from "react"
+import InputTextField from "./InputTextField"
+import Button from "./Button"
 
 export default function AddPomodoroForm() {
   const [month, setMonth] = useState('8')
@@ -32,24 +34,24 @@ export default function AddPomodoroForm() {
 
   return (
     <div>
-      <section className="my-4">
+      <section className="flex justify-between mb-2">
         <label htmlFor="month" className="mr-2">月</label>
-        <input className="border" type="text" id="month" value={month} onChange={(e) => setMonth(e.target.value)} />
+        <InputTextField value={month} onChange={(e) => setMonth(e.target.value)} placeholder="Month" />
       </section>
-      <section className="my-4">
+      <section className="flex justify-between mb-2">
         <label htmlFor="day" className="mr-2">日</label>
-        <input className="border" type="text" id="day" value={day} onChange={(e) => setDay(e.target.value)} />
+        <InputTextField value={day} onChange={(e) => setDay(e.target.value)} placeholder="Day" />
       </section>
-      <section className="my-4">
+      <section className="flex justify-between mb-2">
         <label htmlFor="task" className="mr-2">やったこと</label>
-        <input className="border" type="text" id="task" value={task} onChange={(e) => setTask(e.target.value)} />
+        <InputTextField value={task} onChange={(e) => setTask(e.target.value)} placeholder="Task" />
       </section>
-      <section className="my-4">
+      <section className="flex justify-between mb-2">
         <label htmlFor="memo" className="mr-2">ひとことメモ</label>
-        <input className="border" type="text" id="memo" value={memo} onChange={(e) => setMemo(e.target.value)} />
+        <InputTextField value={memo} onChange={(e) => setMemo(e.target.value)} placeholder="Memo" />
       </section>
       <section className="my-4">
-        <button className="bg-blue-200 p-4 px-8 hover:bg-blue-300" onClick={() => handleAddPomodoro()}>登録</button>
+        <Button onClick={() => handleAddPomodoro()}>登録</Button>
       </section>
     </div>
   )
