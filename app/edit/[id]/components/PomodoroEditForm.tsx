@@ -2,10 +2,8 @@
 import Button from "@/app/components/Button"
 import InputTextField from "@/app/components/InputTextField"
 import { PomodoroResponse } from "@/lib/schemas/pomodoro/schema"
-import { id } from "date-fns/locale"
 import Link from "next/link"
 import { useState } from "react"
-import { uuid } from "zod/v4"
 
 export default function PomodoroEditForm({ pomodoro } : { pomodoro: PomodoroResponse }) {
   const [task, setTask] = useState(pomodoro.task)
@@ -30,22 +28,22 @@ export default function PomodoroEditForm({ pomodoro } : { pomodoro: PomodoroResp
   }
 
   return (
-    <div className="w-8/12 mx-auto">
+    <div>
       <h1 className="text-4xl my-4">Edit pomodoro</h1>
       <section className="flex mb-2 justify-between">
-        <label>やったこと</label>
+        <span>やったこと</span>
         <InputTextField value={task} onChange={(e) => setTask(e.target.value)} placeholder="Task" />
       </section>
       <section className="flex mb-2 justify-between">
-        <label>メモ</label>
+        <span>メモ</span>
         <InputTextField value={memo} onChange={(e) => setMemo(e.target.value)} placeholder="Memo" />
       </section>
       <section className="flex mb-2 justify-between">
-        <label>月</label>
+        <span>月</span>
         <InputTextField value={month} onChange={(e) => setMonth(e.target.value)} placeholder="Month" />
       </section>
       <section className="flex mb-2 justify-between">
-        <label>日</label>
+        <span>日</span>
         <InputTextField value={day} onChange={(e) => setDay(e.target.value)} placeholder="Day" />
       </section>
       <section className="flex justify-between mt-12">

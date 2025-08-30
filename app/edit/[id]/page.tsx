@@ -20,8 +20,8 @@ export default async function Page({ params }: { params: { id: string}}){
 
 
   return (
-    <>
+    <div className="w-8/12 mx-auto">
       <PomodoroEditForm pomodoro={pomodoro} />
-    </>
+    </div>
   )
 }
