@@ -4,9 +4,14 @@
 
 ## 動かし方
 
-1. git clone
-2. npm run dev
-3. http://localhost:3000
+1. `$ git clone git@github.com:Sparklingstadt/pomo-stamp.git`
+2. `$ npm i &&npm run dev`
+3. [http://localhost:3000](http://localhost:3000)
+
+## 注意事項
+
+- PostgreSQLが必要
+- `.env`に`DATABASE_URL="postgresql://your_name:your_pass@localhost:5432/brew_pomo_stamp?schema=public"`の追記が必要
 
 ## 使用技術
 
