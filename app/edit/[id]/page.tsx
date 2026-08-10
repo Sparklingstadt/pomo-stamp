@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client"
 import PomodoroEditForm from "@/app/edit/[id]/components/PomodoroEditForm"
 
-export default async function Page({ params }: { params: { id: string}}){
+export default async function Page({ params }: { params: Promise<{ id: string }> }){
   const id = (await params).id
   const pomodoroId = parseInt(id)
 

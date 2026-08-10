@@ -3,13 +3,16 @@ import { pomodoroPutSchema } from '@/lib/schemas/pomodoro/schema';
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 
-export async function GET(req: Request, { params }: { params: { id: string } }) {
-  const id = parseInt(params.id);
+type RouteContext = { params: Promise<{ id: string }> };
+
+export async function GET(req: Request, { params }: RouteContext) {
+  const { id: idParam } = await params;
+  const id = parseInt(idParam);
   const pomodoro = mockPomodoros.find((item) => item.id === id);
 
   return pomodoro
     ? NextResponse.json(pomodoro)
-    : NextResponse.json({ error: `id ${params.id} not found` }, { status: 404 });
+    : NextResponse.json({ error: `id ${idParam} not found` }, { status: 404 });
 }
 
 export async function PUT(req: Request) {
@@ -40,11 +43,12 @@ export async function PUT(req: Request) {
   return NextResponse.json({ message: '200 Successfully updated' });
 }
 
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(req: Request, { params }: RouteContext) {
   const prisma = new PrismaClient()
-  const id = parseInt((await params).id);
+  const { id: idParam } = await params;
+  const id = parseInt(idParam);
   const pomodoro = await prisma.pomodoro.findUnique({ where: { id } });
-  if (!pomodoro) return NextResponse.json({ error: `id ${params.id} not found` }, { status: 404 });
+  if (!pomodoro) return NextResponse.json({ error: `id ${idParam} not found` }, { status: 404 });
 
   await prisma.pomodoro.delete({ where: { id } });
   return NextResponse.json({ message: '204 Successfully deleted' });
