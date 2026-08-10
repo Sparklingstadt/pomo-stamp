@@ -2,33 +2,26 @@
 import { Button } from "@/components/ui/button";
 import { Pomodoro } from "@/lib/schemas/pomodoro/schema";
 import Link from "next/link";
-import { useState } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export default function PomodoroTableDataRow({
   pomodoro,
-  onChanged,
 }: {
   pomodoro: Pomodoro;
-  onChanged: () => Promise<unknown>;
 }){
-  const [error, setError] = useState<string | null>(null);
-  const [isDeleting, setIsDeleting] = useState(false);
-
-  const handleDeletePomodoro = async (id: number) => {
-    setError(null);
-    setIsDeleting(true);
-
-    try {
+  const queryClient = useQueryClient();
+  const deletePomodoro = useMutation({
+    mutationFn: async (id: number) => {
       const response = await fetch(`/api/pomodoro/${id}`, { method: 'DELETE' });
       if (!response.ok) {
         throw new Error('削除に失敗しました');
       }
-      await onChanged();
-    } catch (error) {
-      setError(error instanceof Error ? error.message : '削除に失敗しました');
-    } finally {
-      setIsDeleting(false);
-    }
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['pomodoros'] }),
+  });
+
+  const handleDeletePomodoro = async (id: number) => {
+    deletePomodoro.mutate(id);
   }
 
   return (
@@ -41,10 +34,10 @@ export default function PomodoroTableDataRow({
         <Button asChild className="bg-blue-500 text-white">
           <Link href={`/edit/${pomodoro.id}`}>編集</Link>
         </Button>
-        <Button className="bg-red-500 text-white" disabled={isDeleting} onClick={() => handleDeletePomodoro(pomodoro.id)}>
-          {isDeleting ? '削除中…' : '削除'}
+        <Button className="bg-red-500 text-white" disabled={deletePomodoro.isPending} onClick={() => handleDeletePomodoro(pomodoro.id)}>
+          {deletePomodoro.isPending ? '削除中…' : '削除'}
         </Button>
-        {error && <p role="alert" className="text-red-600">{error}</p>}
+        {deletePomodoro.isError && <p role="alert" className="text-red-600">{deletePomodoro.error.message}</p>}
       </td>
     </tr>
   )

@@ -5,10 +5,8 @@ import PomodoroTableDataRow from "./PomodoroTableDataRow";
 
 export default function PomodoroTable({
   pomodoros,
-  onChanged,
 }: {
   pomodoros: ReadonlyArray<Pomodoro>;
-  onChanged: () => Promise<unknown>;
 }) {
   return (
     <table>
@@ -23,7 +21,7 @@ export default function PomodoroTable({
       </thead>
       <tbody>
         {pomodoros.map(pomodoro => (
-          <PomodoroTableDataRow key={pomodoro.id} pomodoro={pomodoro} onChanged={onChanged} />
+          <PomodoroTableDataRow key={pomodoro.id} pomodoro={pomodoro} />
         ))}
       </tbody>
     </table>

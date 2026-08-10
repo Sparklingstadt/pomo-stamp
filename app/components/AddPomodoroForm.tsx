@@ -2,13 +2,32 @@
 import { useState } from "react"
 import InputTextField from "./InputTextField"
 import { Button } from "@/components/ui/button";
-export default function AddPomodoroForm({ onCreated }: { onCreated: () => Promise<unknown> }) {
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
+export default function AddPomodoroForm() {
+  const queryClient = useQueryClient();
   const [month, setMonth] = useState('8')
   const [day, setDay] = useState('25')
   const [task, setTask] = useState('Kotlin')
   const [memo, setMemo] = useState('with Jetpack Compose')
-  const [error, setError] = useState<string | null>(null)
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const createPomodoro = useMutation({
+    mutationFn: async (pomodoro: {
+      task: string;
+      memo: string;
+      date: { month: string; day: string };
+    }) => {
+      const response = await fetch('/api/pomodoro', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(pomodoro),
+      });
+
+      if (!response.ok) {
+        throw new Error('登録に失敗しました');
+      }
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['pomodoros'] }),
+  });
 
   const handleAddPomodoro = async () => {
     const pomodoro = {
@@ -20,28 +39,7 @@ export default function AddPomodoroForm({ onCreated }: { onCreated: () => Promis
       }
     }
 
-    setError(null)
-    setIsSubmitting(true)
-
-    try {
-      const response = await fetch('/api/pomodoro', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(pomodoro)
-      })
-
-      if (!response.ok) {
-        throw new Error('登録に失敗しました')
-      }
-
-      await onCreated()
-    } catch (error) {
-      setError(error instanceof Error ? error.message : '登録に失敗しました')
-    } finally {
-      setIsSubmitting(false)
-    }
+    createPomodoro.mutate(pomodoro)
   }
 
   return (
@@ -63,11 +61,11 @@ export default function AddPomodoroForm({ onCreated }: { onCreated: () => Promis
         <InputTextField id="new-memo" value={memo} onChange={(e) => setMemo(e.target.value)} placeholder="Memo" />
       </section>
       <section className="my-4">
-        <Button className="bg-blue-500 text-white" variant="outline" disabled={isSubmitting} onClick={handleAddPomodoro}>
-          {isSubmitting ? '登録中…' : '登録'}
+        <Button className="bg-blue-500 text-white" variant="outline" disabled={createPomodoro.isPending} onClick={handleAddPomodoro}>
+          {createPomodoro.isPending ? '登録中…' : '登録'}
         </Button>
       </section>
-      {error && <p role="alert" className="text-red-600">{error}</p>}
+      {createPomodoro.isError && <p role="alert" className="text-red-600">{createPomodoro.error.message}</p>}
     </div>
   )
 }
