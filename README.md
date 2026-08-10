@@ -66,7 +66,10 @@ npm run lint
 npm run build
 npm audit --omit=dev
 docker compose config
+npm run test:smoke
 ```
+
+GitHub Actionsでは、上記のNode.js品質チェックに加え、ComposeでPostgreSQLとアプリを起動してhealthおよびCRUD APIのスモークテストを実行します。
 
 ## Migrationに関する注意
 

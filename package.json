@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint .",
     "prepare": "husky",
-    "test": "jest"
+    "test": "jest",
+    "test:smoke": "node scripts/smoke-test.mjs"
   },
   "dependencies": {
     "@prisma/client": "^6.12.0",
