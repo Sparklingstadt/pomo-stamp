@@ -7,7 +7,7 @@ import AddPomodoroForm from './components/AddPomodoroForm';
 
 export default function Pomodoro() {
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
-  const { data, isLoading, error } = useSWR<PomodoroResponse[]>('/api/pomodoro', fetcher);
+  const { data, isLoading, error, mutate } = useSWR<PomodoroResponse[]>('/api/pomodoro', fetcher);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error</div>;
@@ -25,8 +25,8 @@ export default function Pomodoro() {
 
   return (
     <div>
-      <PomodoroTable pomodoros={pomodoros} />
-      <AddPomodoroForm />
+      <PomodoroTable pomodoros={pomodoros} onChanged={() => mutate()} />
+      <AddPomodoroForm onCreated={() => mutate()} />
     </div>
   );
 }

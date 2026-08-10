@@ -3,7 +3,13 @@ import { Pomodoro } from "@/lib/schemas/pomodoro/schema";
 import PomodoroTableDataRow from "./PomodoroTableDataRow";
 
 
-export default function PomodoroTable({ pomodoros }: { pomodoros: ReadonlyArray<Pomodoro> }) {
+export default function PomodoroTable({
+  pomodoros,
+  onChanged,
+}: {
+  pomodoros: ReadonlyArray<Pomodoro>;
+  onChanged: () => Promise<unknown>;
+}) {
   return (
     <table>
       <thead>
@@ -17,7 +23,7 @@ export default function PomodoroTable({ pomodoros }: { pomodoros: ReadonlyArray<
       </thead>
       <tbody>
         {pomodoros.map(pomodoro => (
-          <PomodoroTableDataRow key={pomodoro.id} pomodoro={pomodoro} />
+          <PomodoroTableDataRow key={pomodoro.id} pomodoro={pomodoro} onChanged={onChanged} />
         ))}
       </tbody>
     </table>
