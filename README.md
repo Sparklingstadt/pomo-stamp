@@ -89,4 +89,4 @@ Docker構成はローカル開発用で、Next.jsの開発サーバーを起動�
 - ESLint / Prettier
 - Husky / Commitlint
 - Tailwind CSS v3 / shadcn/ui
-- SWR
+- TanStack Query

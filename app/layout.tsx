@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './styles/globals.scss';
+import Providers from './providers';
 
 export const metadata: Metadata = {
   title: 'Pomo Stamp',
@@ -13,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body><Providers>{children}</Providers></body>
     </html>
   );
 }

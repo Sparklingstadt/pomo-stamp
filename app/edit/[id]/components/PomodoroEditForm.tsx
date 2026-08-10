@@ -2,41 +2,39 @@
 import InputTextField from "@/app/components/InputTextField"
 import { Button } from "@/components/ui/button"
 import { PomodoroResponse } from "@/lib/schemas/pomodoro/schema"
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import Link from "next/link"
 import { useRouter } from 'next/navigation'
 import { useState } from "react"
 
 export default function PomodoroEditForm({ pomodoro } : { pomodoro: PomodoroResponse }) {
   const router = useRouter()
+  const queryClient = useQueryClient()
   const [task, setTask] = useState(pomodoro.task)
   const [memo, setMemo] = useState(pomodoro.memo)
   const [month, setMonth] = useState(pomodoro.month.toString())
   const [day, setDay] = useState(pomodoro.day.toString())
-  const [error, setError] = useState<string | null>(null)
-  const [isSubmitting, setIsSubmitting] = useState(false)
-
-  const handleUpdatePomodoro = async () => {
-    setError(null)
-    setIsSubmitting(true)
-
-    try {
+  const updatePomodoro = useMutation({
+    mutationFn: async (payload: { task: string; memo: string; date: { month: string; day: string } }) => {
       const response = await fetch(`/api/pomodoro/${pomodoro.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ task, memo, date: { month, day } })
+        body: JSON.stringify(payload),
       })
 
       if (!response.ok) {
         throw new Error('更新に失敗しました')
       }
-
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['pomodoros'] })
       router.push('/')
       router.refresh()
-    } catch (error) {
-      setError(error instanceof Error ? error.message : '更新に失敗しました')
-    } finally {
-      setIsSubmitting(false)
-    }
+    },
+  })
+
+  const handleUpdatePomodoro = async () => {
+    updatePomodoro.mutate({ task, memo, date: { month, day } })
   }
 
   return (
@@ -64,11 +62,11 @@ export default function PomodoroEditForm({ pomodoro } : { pomodoro: PomodoroResp
             キャンセル
           </Link>
         </Button>
-        <Button className="bg-blue-500 text-white" disabled={isSubmitting} onClick={handleUpdatePomodoro}>
-          {isSubmitting ? '更新中…' : '更新'}
+        <Button className="bg-blue-500 text-white" disabled={updatePomodoro.isPending} onClick={handleUpdatePomodoro}>
+          {updatePomodoro.isPending ? '更新中…' : '更新'}
         </Button>
       </section>
-      {error && <p role="alert" className="text-red-600">{error}</p>}
+      {updatePomodoro.isError && <p role="alert" className="text-red-600">{updatePomodoro.error.message}</p>}
     </div>
   )
 }
