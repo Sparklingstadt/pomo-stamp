@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client"
+import { prisma } from '@/lib/prisma';
 import PomodoroEditForm from "@/app/edit/[id]/components/PomodoroEditForm"
 
 export default async function Page({ params }: { params: Promise<{ id: string }> }){
@@ -9,7 +9,6 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
     return <div>Invalid Pomodoro ID</div>
   }
 
-  const prisma = new PrismaClient()
   const pomodoro = await prisma.pomodoro.findUnique({
     where: { id: pomodoroId}
   })
