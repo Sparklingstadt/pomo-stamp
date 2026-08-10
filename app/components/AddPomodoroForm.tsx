@@ -2,11 +2,13 @@
 import { useState } from "react"
 import InputTextField from "./InputTextField"
 import { Button } from "@/components/ui/button";
-export default function AddPomodoroForm() {
+export default function AddPomodoroForm({ onCreated }: { onCreated: () => Promise<unknown> }) {
   const [month, setMonth] = useState('8')
   const [day, setDay] = useState('25')
   const [task, setTask] = useState('Kotlin')
   const [memo, setMemo] = useState('with Jetpack Compose')
+  const [error, setError] = useState<string | null>(null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleAddPomodoro = async () => {
     const pomodoro = {
@@ -18,15 +20,28 @@ export default function AddPomodoroForm() {
       }
     }
 
-    await fetch('/api/pomodoro', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(pomodoro)
-    }).then(res => res.json()).then(data => {
-      console.log(data);
-    })
+    setError(null)
+    setIsSubmitting(true)
+
+    try {
+      const response = await fetch('/api/pomodoro', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(pomodoro)
+      })
+
+      if (!response.ok) {
+        throw new Error('登録に失敗しました')
+      }
+
+      await onCreated()
+    } catch (error) {
+      setError(error instanceof Error ? error.message : '登録に失敗しました')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -48,8 +63,11 @@ export default function AddPomodoroForm() {
         <InputTextField value={memo} onChange={(e) => setMemo(e.target.value)} placeholder="Memo" />
       </section>
       <section className="my-4">
-        <Button className="bg-blue-500 text-white" variant="outline" onClick={() => handleAddPomodoro()}>登録</Button>
+        <Button className="bg-blue-500 text-white" variant="outline" disabled={isSubmitting} onClick={handleAddPomodoro}>
+          {isSubmitting ? '登録中…' : '登録'}
+        </Button>
       </section>
+      {error && <p role="alert" className="text-red-600">{error}</p>}
     </div>
   )
 }

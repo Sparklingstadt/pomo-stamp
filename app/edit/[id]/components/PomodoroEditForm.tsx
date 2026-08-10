@@ -3,28 +3,40 @@ import InputTextField from "@/app/components/InputTextField"
 import { Button } from "@/components/ui/button"
 import { PomodoroResponse } from "@/lib/schemas/pomodoro/schema"
 import Link from "next/link"
+import { useRouter } from 'next/navigation'
 import { useState } from "react"
 
 export default function PomodoroEditForm({ pomodoro } : { pomodoro: PomodoroResponse }) {
+  const router = useRouter()
   const [task, setTask] = useState(pomodoro.task)
   const [memo, setMemo] = useState(pomodoro.memo)
   const [month, setMonth] = useState(pomodoro.month.toString())
   const [day, setDay] = useState(pomodoro.day.toString())
+  const [error, setError] = useState<string | null>(null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleUpdatePomodoro = async () => {
-    await fetch(`/api/pomodoro/${pomodoro.id}`, {
-      method: 'PUT',
-      body: JSON.stringify({
-        id: pomodoro.id.toString(),
-        uuid: pomodoro.uuid,
-        task,
-        memo,
-        date: {
-          month,
-          day
-        }
+    setError(null)
+    setIsSubmitting(true)
+
+    try {
+      const response = await fetch(`/api/pomodoro/${pomodoro.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ task, memo, date: { month, day } })
       })
-    })
+
+      if (!response.ok) {
+        throw new Error('更新に失敗しました')
+      }
+
+      router.push('/')
+      router.refresh()
+    } catch (error) {
+      setError(error instanceof Error ? error.message : '更新に失敗しました')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -52,8 +64,11 @@ export default function PomodoroEditForm({ pomodoro } : { pomodoro: PomodoroResp
             キャンセル
           </Link>
         </Button>
-        <Button className="bg-blue-500 text-white" onClick={() => handleUpdatePomodoro()}>更新</Button>
+        <Button className="bg-blue-500 text-white" disabled={isSubmitting} onClick={handleUpdatePomodoro}>
+          {isSubmitting ? '更新中…' : '更新'}
+        </Button>
       </section>
+      {error && <p role="alert" className="text-red-600">{error}</p>}
     </div>
   )
 }

@@ -2,12 +2,33 @@
 import { Button } from "@/components/ui/button";
 import { Pomodoro } from "@/lib/schemas/pomodoro/schema";
 import Link from "next/link";
+import { useState } from 'react';
 
-export default function PomodoroTableDataRow({ pomodoro }: { pomodoro: Pomodoro}){
+export default function PomodoroTableDataRow({
+  pomodoro,
+  onChanged,
+}: {
+  pomodoro: Pomodoro;
+  onChanged: () => Promise<unknown>;
+}){
+  const [error, setError] = useState<string | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+
   const handleDeletePomodoro = async (id: number) => {
-    await fetch(`/api/pomodoro/${id}`, {
-      method: 'DELETE'
-    })
+    setError(null);
+    setIsDeleting(true);
+
+    try {
+      const response = await fetch(`/api/pomodoro/${id}`, { method: 'DELETE' });
+      if (!response.ok) {
+        throw new Error('削除に失敗しました');
+      }
+      await onChanged();
+    } catch (error) {
+      setError(error instanceof Error ? error.message : '削除に失敗しました');
+    } finally {
+      setIsDeleting(false);
+    }
   }
 
   return (
@@ -20,7 +41,10 @@ export default function PomodoroTableDataRow({ pomodoro }: { pomodoro: Pomodoro}
         <Button className="bg-blue-500 text-white">
           <Link href={`/edit/${pomodoro.id}`}>編集</Link>
         </Button>
-        <Button className="bg-red-500 text-white" onClick={() => handleDeletePomodoro(pomodoro.id)}>削除</Button>
+        <Button className="bg-red-500 text-white" disabled={isDeleting} onClick={() => handleDeletePomodoro(pomodoro.id)}>
+          {isDeleting ? '削除中…' : '削除'}
+        </Button>
+        {error && <p role="alert" className="text-red-600">{error}</p>}
       </td>
     </tr>
   )
