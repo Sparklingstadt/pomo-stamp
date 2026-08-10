@@ -38,7 +38,7 @@ export default function PomodoroTableDataRow({
       <td className="px-4 py-2">{ pomodoro.task }</td>
       <td className="px-4 py-2">{ pomodoro.memo }</td>
       <td className="px-4 py-2">
-        <Button className="bg-blue-500 text-white">
+        <Button asChild className="bg-blue-500 text-white">
           <Link href={`/edit/${pomodoro.id}`}>編集</Link>
         </Button>
         <Button className="bg-red-500 text-white" disabled={isDeleting} onClick={() => handleDeletePomodoro(pomodoro.id)}>

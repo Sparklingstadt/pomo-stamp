@@ -3,9 +3,9 @@ import PomodoroEditForm from "@/app/edit/[id]/components/PomodoroEditForm"
 
 export default async function Page({ params }: { params: Promise<{ id: string }> }){
   const id = (await params).id
-  const pomodoroId = parseInt(id)
+  const pomodoroId = Number(id)
 
-  if(typeof pomodoroId !== "number") {
+  if(!Number.isSafeInteger(pomodoroId) || pomodoroId <= 0) {
     return <div>Invalid Pomodoro ID</div>
   }
 

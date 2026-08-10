@@ -14,11 +14,11 @@ export default function PomodoroTable({
     <table>
       <thead>
         <tr>
-          <td align="center">ID</td>
-          <td align="center">日付</td>
-          <td align="center">やったこと</td>
-          <td align="center">ひとことメモ</td>
-          <td align="center">操作</td>
+          <th scope="col" className="text-center">ID</th>
+          <th scope="col" className="text-center">日付</th>
+          <th scope="col" className="text-center">やったこと</th>
+          <th scope="col" className="text-center">ひとことメモ</th>
+          <th scope="col" className="text-center">操作</th>
         </tr>
       </thead>
       <tbody>

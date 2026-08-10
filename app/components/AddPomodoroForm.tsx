@@ -47,20 +47,20 @@ export default function AddPomodoroForm({ onCreated }: { onCreated: () => Promis
   return (
     <div>
       <section className="flex justify-between mb-2">
-        <span className="mr-2">月</span>
-        <InputTextField value={month} onChange={(e) => setMonth(e.target.value)} placeholder="Month" />
+        <label htmlFor="new-month" className="mr-2">月</label>
+        <InputTextField id="new-month" value={month} onChange={(e) => setMonth(e.target.value)} placeholder="Month" />
       </section>
       <section className="flex justify-between mb-2">
-        <span className="mr-2">日</span>
-        <InputTextField value={day} onChange={(e) => setDay(e.target.value)} placeholder="Day" />
+        <label htmlFor="new-day" className="mr-2">日</label>
+        <InputTextField id="new-day" value={day} onChange={(e) => setDay(e.target.value)} placeholder="Day" />
       </section>
       <section className="flex justify-between mb-2">
-        <span className="mr-2">やったこと</span>
-        <InputTextField value={task} onChange={(e) => setTask(e.target.value)} placeholder="Task" />
+        <label htmlFor="new-task" className="mr-2">やったこと</label>
+        <InputTextField id="new-task" value={task} onChange={(e) => setTask(e.target.value)} placeholder="Task" />
       </section>
       <section className="flex justify-between mb-2">
-        <span className="mr-2">ひとことメモ</span>
-        <InputTextField value={memo} onChange={(e) => setMemo(e.target.value)} placeholder="Memo" />
+        <label htmlFor="new-memo" className="mr-2">ひとことメモ</label>
+        <InputTextField id="new-memo" value={memo} onChange={(e) => setMemo(e.target.value)} placeholder="Memo" />
       </section>
       <section className="my-4">
         <Button className="bg-blue-500 text-white" variant="outline" disabled={isSubmitting} onClick={handleAddPomodoro}>
