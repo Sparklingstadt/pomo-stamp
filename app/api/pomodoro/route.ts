@@ -1,18 +1,14 @@
 import { pomodoroPostSchema } from '@/lib/schemas/pomodoro/schema';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/lib/prisma';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
-  const prisma = new PrismaClient();
-
   try {
     const pomodoros = await prisma.pomodoro.findMany();
     return NextResponse.json(pomodoros);
   } catch (error) {
     console.error('Failed to list pomodoros', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
-  } finally {
-    await prisma.$disconnect();
   }
 }
 
@@ -32,8 +28,6 @@ export async function POST(req: Request) {
     );
   }
 
-  const prisma = new PrismaClient();
-
   try {
     const pomodoro = await prisma.pomodoro.create({
       data: {
@@ -49,7 +43,5 @@ export async function POST(req: Request) {
   } catch (error) {
     console.error('Failed to create pomodoro', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
-  } finally {
-    await prisma.$disconnect();
   }
 }
