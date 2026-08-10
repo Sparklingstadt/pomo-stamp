@@ -3,8 +3,8 @@ import './styles/globals.scss';
 import Providers from './providers';
 
 export const metadata: Metadata = {
-  title: 'Pomo Stamp',
-  description: 'A nice pomodoro stamp app',
+  title: 'Pomo Stamp — 小さな集中を記録する',
+  description: '毎日の集中と達成を、シンプルに記録するPomodoroログ',
 };
 
 export default function RootLayout({
@@ -13,8 +13,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body><Providers>{children}</Providers></body>
+    <html lang="ja">
+      <body>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
